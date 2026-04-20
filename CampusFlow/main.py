@@ -193,3 +193,4 @@ if __name__ == "__main__":
         run_chat(args.uni)
 
 print("Hello, CampusFlow v4 is ready to chat! Type your message below.\n")
+print("Commands: 'exit' to quit, 'new' for a fresh session, 'tickets' to view raised tickets, 'context' to view collected user context.\n")

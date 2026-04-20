@@ -66,6 +66,145 @@ def is_tool(tool_type: ToolType, schema: dict, department: str = "shared"):
         return wrapper
     return decorator
 
+# ══════════════════════════════════════════════════════════════════════════════
+#  General TOOLS
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Valid top-level field names in student_information.json
+_STUDENT_FIELDS = {"personal", "academic", "finance", "hostel", "library", "disciplinary"}
+
+
+def _load_student_db() -> list[dict]:
+    """Load the student_information.json from the configured data path."""
+    import json, os
+    # _adapter carries the data path via self.path (ticket_path from config)
+    base = getattr(_adapter, "path", None)
+    if base is None:
+        return []
+    fpath = os.path.join(base, "student_information.json")
+    if not os.path.exists(fpath):
+        return []
+    with open(fpath) as f:
+        data = json.load(f)
+    return data.get("students", []) if isinstance(data, dict) else []
+
+
+def _find_student(student_id: str) -> dict | None:
+    for s in _load_student_db():
+        if s.get("student_id") == student_id:
+            return s
+    return None
+
+
+@is_tool(ToolType.READ, department="shared", schema={
+    "type": "function",
+    "function": {
+        "name": "get_student_info",
+        "description": (
+            "Fetch a student's profile from student_information.json. "
+            "Use the `fields` parameter to request only the sections you need "
+            "(e.g. [\"academic\", \"finance\"]) and avoid flooding the LLM context "
+            "with irrelevant data. Omit `fields` to retrieve the full profile. "
+            "Available sections: personal, academic, finance, hostel, library, disciplinary."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "student_id": {
+                    "type": "string",
+                    "description": "Student ID, e.g. 'STU-2024-0001'",
+                },
+                "fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": sorted(_STUDENT_FIELDS),
+                    },
+                    "description": (
+                        "Subset of profile sections to return. "
+                        "Omit or pass [] to get the full profile."
+                    ),
+                },
+            },
+            "required": ["student_id"],
+        },
+    },
+})
+def get_student_info(student_id: str, fields: list[str] | None = None) -> dict:
+    student = _find_student(student_id)
+    if student is None:
+        return {
+            "found": False,
+            "student_id": student_id,
+            "message": f"No student record found for ID '{student_id}'.",
+        }
+
+    # Validate requested fields; silently drop unknown ones
+    requested = [f for f in (fields or []) if f in _STUDENT_FIELDS]
+
+    if requested:
+        profile = {f: student.get(f) for f in requested}
+    else:
+        # Return everything except student_id (it's in the wrapper)
+        profile = {k: v for k, v in student.items() if k != "student_id"}
+
+    return {
+        "found": True,
+        "student_id": student_id,
+        "fields_returned": requested if requested else list(_STUDENT_FIELDS),
+        "profile": profile,
+    }
+
+
+@is_tool(ToolType.READ, department="shared", schema={
+    "type": "function",
+    "function": {
+        "name": "get_student_summary",
+        "description": (
+            "Lightweight identity check for a student. Returns only the key fields "
+            "needed to verify who the student is and their current academic standing: "
+            "name, programme, faculty, year, semester, status, and CGPA. "
+            "Prefer this over get_student_info when you only need to confirm identity "
+            "or give the orchestrator enough context to route a request."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "student_id": {
+                    "type": "string",
+                    "description": "Student ID, e.g. 'STU-2024-0001'",
+                },
+            },
+            "required": ["student_id"],
+        },
+    },
+})
+def get_student_summary(student_id: str) -> dict:
+    student = _find_student(student_id)
+    if student is None:
+        return {
+            "found": False,
+            "student_id": student_id,
+            "message": f"No student record found for ID '{student_id}'.",
+        }
+
+    personal  = student.get("personal", {})
+    academic  = student.get("academic", {})
+
+    return {
+        "found": True,
+        "student_id": student_id,
+        "name":        personal.get("name"),
+        "email":       personal.get("email"),
+        "programme":   academic.get("programme"),
+        "faculty":     academic.get("faculty"),
+        "year":        academic.get("year"),
+        "semester":    academic.get("semester"),
+        "status":      academic.get("status"),
+        "cgpa":        academic.get("cgpa"),          # None for Year-1 Sem-1
+        "intake":      academic.get("intake"),
+        "expected_graduation": academic.get("expected_graduation"),
+    }
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  accommodation TOOLS

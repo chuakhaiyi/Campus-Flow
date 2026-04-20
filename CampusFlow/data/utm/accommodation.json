@@ -262,5 +262,19 @@
     "curfew": "12:00 AM (guests must leave by 10:00 PM)",
     "visitor_policy": "Same-gender visitors allowed in common areas only"
   },
-  "tickets": []
+  "tickets": [
+    {
+      "student_id": "ait2409081",
+      "student_name": "binbinlabu",
+      "room_id": "KM-A-101",
+      "room_type": "single",
+      "monthly_rate_myr": 280,
+      "additional_notes": "",
+      "department": "accommodation",
+      "action": "application_submitted",
+      "ticket_id": "HSG-935389",
+      "timestamp": "2026-04-20T00:36:46.602996Z",
+      "status": "open"
+    }
+  ]
 }

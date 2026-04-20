@@ -22,6 +22,14 @@ from services.session_store import get_session_store
 
 app = FastAPI(title="CampusFlow API", version="4.0.0")
 
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ── Request / response schemas ────────────────────────────────────────────────
 

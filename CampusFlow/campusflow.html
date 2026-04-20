@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusFlow — UTM Campus AI</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --gray-950: #111111;
+    --gray-900: #1a1a1a;
+    --gray-800: #242424;
+    --gray-700: #333333;
+    --gray-600: #4a4a4a;
+    --gray-500: #6b6b6b;
+    --gray-400: #8c8c8c;
+    --gray-300: #b0b0b0;
+    --gray-200: #d4d4d4;
+    --gray-150: #e0e0e0;
+    --gray-100: #ebebeb;
+    --gray-50: #f5f5f5;
+    --font: 'DM Sans', system-ui, sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    font-family: var(--font);
+    background: var(--black);
+    color: var(--white);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--gray-700); border-radius: 2px; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes blink { 0%,80%,100% { opacity: 0.2; } 40% { opacity: 1; } }
+  @keyframes pulse-dot { 0%,100% { transform: scale(1); } 50% { transform: scale(1.4); } }
+
+  /* ─── PAGES ─── */
+  #page-login, #page-app { position: absolute; inset: 0; }
+  #page-login { display: flex; align-items: center; justify-content: center; background: var(--black); animation: fadeIn 0.3s ease; }
+  #page-app { display: none; flex-direction: column; }
+  #page-app.visible { display: flex; animation: fadeIn 0.25s ease; }
+
+  /* ─── LOGIN ─── */
+  .login-wrap { width: 100%; max-width: 400px; padding: 0 20px; animation: fadeUp 0.4s ease; }
+  .login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; }
+  .login-logo { width: 40px; height: 40px; border: 1px solid var(--gray-700); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+  .login-logo svg { width: 20px; height: 20px; stroke: var(--white); fill: none; stroke-width: 1.8; }
+  .login-brand-text h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
+  .login-brand-text p { font-size: 12px; color: var(--gray-500); margin-top: 1px; }
+
+  .login-card { border: 1px solid var(--gray-800); border-radius: 16px; padding: 28px; background: var(--gray-950); }
+  .tab-row { display: flex; background: var(--gray-900); border-radius: 8px; padding: 3px; margin-bottom: 24px; }
+  .tab-btn { flex: 1; padding: 8px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; font-family: var(--font); transition: all 0.18s; background: transparent; color: var(--gray-500); }
+  .tab-btn.on { background: var(--white); color: var(--black); }
+
+  .field-group { margin-bottom: 12px; }
+  .field-label { font-size: 11px; font-weight: 500; color: var(--gray-400); letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+  .field { width: 100%; background: var(--gray-900); border: 1px solid var(--gray-800); border-radius: 8px; padding: 10px 13px; color: var(--white); font-size: 13px; font-family: var(--font); outline: none; transition: border-color 0.18s; }
+  .field:focus { border-color: var(--gray-500); }
+  .field::placeholder { color: var(--gray-600); }
+
+  .role-row { display: flex; gap: 8px; margin-bottom: 20px; }
+  .role-card { flex: 1; border: 1px solid var(--gray-800); border-radius: 10px; padding: 14px 12px; cursor: pointer; transition: all 0.18s; text-align: center; background: var(--gray-900); }
+  .role-card:hover { border-color: var(--gray-600); }
+  .role-card.on { border-color: var(--white); background: var(--gray-800); }
+  .role-card .rc-icon { width: 28px; height: 28px; border-radius: 6px; background: var(--gray-800); border: 1px solid var(--gray-700); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+  .role-card.on .rc-icon { background: var(--white); border-color: var(--white); }
+  .role-card .rc-icon svg { width: 14px; height: 14px; stroke: var(--gray-400); fill: none; stroke-width: 2; }
+  .role-card.on .rc-icon svg { stroke: var(--black); }
+  .role-card .rc-name { font-size: 13px; font-weight: 500; color: var(--gray-300); }
+  .role-card.on .rc-name { color: var(--white); }
+  .role-card .rc-sub { font-size: 10px; color: var(--gray-600); margin-top: 2px; }
+
+  .btn { width: 100%; padding: 11px; background: var(--white); border: none; border-radius: 8px; color: var(--black); font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font); display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.88; }
+  .err-msg { color: #ff6b6b; font-size: 12px; margin-bottom: 10px; }
+
+  /* ─── APP LAYOUT ─── */
+  .topbar { height: 52px; border-bottom: 1px solid var(--gray-900); display: flex; align-items: center; justify-content: space-between; padding: 0 18px; flex-shrink: 0; background: var(--black); }
+  .topbar-left { display: flex; align-items: center; gap: 10px; }
+  .top-logo { width: 28px; height: 28px; border: 1px solid var(--gray-700); border-radius: 7px; display: flex; align-items: center; justify-content: center; }
+  .top-logo svg { width: 14px; height: 14px; stroke: var(--white); fill: none; stroke-width: 1.8; }
+  .top-title { font-size: 14px; font-weight: 600; letter-spacing: -0.2px; }
+  .top-sub { font-size: 11px; color: var(--gray-600); margin-left: 4px; }
+  .topbar-right { display: flex; align-items: center; gap: 8px; }
+  .top-user { display: flex; align-items: center; gap: 8px; padding: 5px 10px; border: 1px solid var(--gray-800); border-radius: 8px; cursor: default; }
+  .avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--gray-800); border: 1px solid var(--gray-700); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: var(--white); flex-shrink: 0; }
+  .top-user-name { font-size: 12px; font-weight: 500; }
+  .role-pill { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 20px; border: 1px solid var(--gray-700); color: var(--gray-400); }
+  .role-pill.staff { border-color: var(--gray-500); color: var(--gray-200); }
+  .icon-btn { background: transparent; border: 1px solid var(--gray-800); border-radius: 7px; color: var(--gray-500); padding: 5px 11px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: var(--font); display: flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
+  .icon-btn:hover { border-color: var(--gray-600); color: var(--gray-200); }
+
+  /* ─── BODY ─── */
+  .body { display: flex; flex: 1; overflow: hidden; }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar { width: 240px; border-right: 1px solid var(--gray-900); padding: 14px 10px; overflow-y: auto; flex-shrink: 0; display: flex; flex-direction: column; gap: 0; }
+  .sb-section-label { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gray-700); padding: 0 8px; margin: 8px 0 6px; }
+  
+  .sb-item { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; margin-bottom: 2px; }
+  .sb-item:hover { background: var(--gray-900); }
+  .sb-item.on { background: var(--gray-900); border-color: var(--gray-800); }
+  .sb-icon { width: 28px; height: 28px; border-radius: 6px; background: var(--gray-900); border: 1px solid var(--gray-800); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .sb-item.on .sb-icon { background: var(--white); border-color: var(--white); }
+  .sb-icon svg { width: 13px; height: 13px; stroke: var(--gray-500); fill: none; stroke-width: 2; }
+  .sb-item.on .sb-icon svg { stroke: var(--black); }
+  
+  .sb-text { min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+  .sb-name { font-size: 12px; font-weight: 500; color: var(--gray-300); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sb-item.on .sb-name { color: var(--white); }
+  .sb-desc { font-size: 10px; color: var(--gray-600); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sb-divider { height: 1px; background: var(--gray-900); margin: 12px 4px; }
+
+  .new-chat-btn { background: var(--white); color: var(--black); width: 100%; border: none; padding: 10px; border-radius: 8px; font-family: var(--font); font-weight: 600; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px; transition: opacity 0.15s; }
+  .new-chat-btn:hover { opacity: 0.9; }
+
+  /* ─── MAIN AREA WRAPPER ─── */
+  .main-wrap { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; position: relative; }
+  .view-container { display: flex; flex-direction: column; height: 100%; width: 100%; position: absolute; inset: 0; }
+
+  /* ─── CHAT VIEW ─── */
+  .msgs-area { flex: 1; overflow-y: auto; padding: 24px 40px 12px; display: flex; flex-direction: column; gap: 0; max-width: 900px; margin: 0 auto; width: 100%; }
+  .bubble-row { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 20px; animation: fadeUp 0.2s ease; }
+  .bubble-row.user { flex-direction: row-reverse; }
+  .msg-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--gray-900); border: 1px solid var(--gray-800); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .msg-avatar svg { width: 14px; height: 14px; stroke: var(--gray-400); fill: none; stroke-width: 1.8; }
+  .bubble { max-width: 75%; padding: 12px 18px; font-size: 14px; line-height: 1.65; border-radius: 18px; }
+  .bubble.ai { background: var(--gray-900); border: 1px solid var(--gray-800); border-radius: 18px 18px 18px 4px; color: var(--gray-100); }
+  .bubble.user { background: var(--white); color: var(--black); border-radius: 18px 18px 4px 18px; }
+  .bubble strong { font-weight: 600; }
+  .bubble.ai strong { color: var(--white); }
+  
+  .typing-row { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 20px; }
+  .typing-dots { display: flex; gap: 4px; padding: 16px 18px; background: var(--gray-900); border: 1px solid var(--gray-800); border-radius: 18px 18px 18px 4px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gray-500); }
+  .dot:nth-child(1) { animation: blink 1.2s 0s infinite; }
+  .dot:nth-child(2) { animation: blink 1.2s 0.2s infinite; }
+  .dot:nth-child(3) { animation: blink 1.2s 0.4s infinite; }
+
+  /* suggestions */
+  .suggestions { padding: 0 40px 16px; display: flex; gap: 8px; flex-wrap: wrap; max-width: 900px; margin: 0 auto; width: 100%; }
+  .sugg { background: transparent; border: 1px solid var(--gray-800); border-radius: 20px; color: var(--gray-400); padding: 8px 16px; font-size: 12px; cursor: pointer; font-family: var(--font); transition: all 0.15s; }
+  .sugg:hover { border-color: var(--gray-500); color: var(--white); background: var(--gray-900); }
+
+  /* input */
+  .input-bar-container { border-top: 1px solid var(--gray-900); background: var(--black); padding: 16px 40px 24px; }
+  .input-wrapper { max-width: 900px; margin: 0 auto; width: 100%; }
+  .input-row { display: flex; gap: 10px; align-items: flex-end; }
+  .chat-textarea { flex: 1; background: var(--gray-950); border: 1px solid var(--gray-800); border-radius: 14px; padding: 14px 16px; color: var(--white); font-size: 14px; font-family: var(--font); outline: none; resize: none; transition: border-color 0.18s; line-height: 1.5; }
+  .chat-textarea:focus { border-color: var(--gray-500); }
+  .chat-textarea::placeholder { color: var(--gray-600); }
+  .send-btn { width: 48px; height: 48px; border-radius: 12px; background: var(--white); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity 0.15s; }
+  .send-btn:hover { opacity: 0.8; }
+  .send-btn svg { width: 18px; height: 18px; stroke: var(--black); fill: none; stroke-width: 2.5; }
+  .input-hint { text-align: center; font-size: 11px; color: var(--gray-700); margin-top: 10px; }
+
+  /* ─── DEPT LOGS VIEW ─── */
+  #view-dept { background: var(--black); overflow-y: auto; padding: 32px 40px; display: none; }
+  .dept-header { max-width: 900px; margin: 0 auto 24px; width: 100%; border-bottom: 1px solid var(--gray-900); padding-bottom: 16px; }
+  .dept-header h2 { font-size: 20px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+  .dept-header p { color: var(--gray-500); font-size: 13px; margin-top: 4px; }
+  
+  .logs-container { max-width: 900px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 12px; }
+  
+  .log-entry { border: 1px solid var(--gray-800); border-radius: 12px; padding: 16px; background: var(--gray-950); cursor: pointer; transition: all 0.15s; }
+  .log-entry:hover { background: var(--gray-900); border-color: var(--gray-700); }
+  .log-entry.open { background: var(--gray-900); border-color: var(--gray-600); }
+  .le-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .le-meta-left { display: flex; align-items: center; gap: 10px; }
+  .le-badge { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px; font-family: var(--mono); text-transform: uppercase; }
+  .le-badge.route   { background: var(--gray-800); color: var(--gray-300); }
+  .le-badge.tool    { background: var(--white); color: var(--black); }
+  .le-badge.result  { background: var(--gray-700); color: var(--gray-100); }
+  .le-badge.response{ background: var(--gray-900); border: 1px solid var(--gray-700); color: var(--white); }
+  .le-time { font-size: 11px; color: var(--gray-600); font-family: var(--mono); }
+  .le-flow { font-size: 13px; color: var(--gray-400); display: flex; align-items: center; gap: 8px; }
+  .le-from { color: var(--gray-200); font-weight: 500; }
+  .le-arrow { color: var(--gray-600); }
+  .le-to { color: var(--gray-400); }
+  .le-payload { display: none; margin-top: 12px; background: var(--black); border: 1px solid var(--gray-800); border-radius: 8px; padding: 12px 16px; font-family: var(--mono); font-size: 12px; color: var(--gray-300); word-break: break-all; line-height: 1.6; }
+  .log-entry.open .le-payload { display: block; }
+</style>
+</head>
+<body>
+
+<div id="page-login">
+  <div class="login-wrap">
+    <div class="login-brand">
+      <div class="login-logo">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="login-brand-text">
+        <h1>CampusFlow</h1>
+        <p>AI Campus Assistant &middot; UTM</p>
+      </div>
+    </div>
+
+    <div class="login-card">
+      <div class="tab-row">
+        <button class="tab-btn on" id="tab-in" onclick="switchTab('in')">Sign in</button>
+        <button class="tab-btn" id="tab-up" onclick="switchTab('up')">Sign up</button>
+      </div>
+
+      <div id="form-in">
+        <div class="field-group">
+          <label class="field-label">Email</label>
+          <input class="field" type="email" id="li-email" placeholder="your@utm.my">
+        </div>
+        <div class="field-group" style="margin-bottom:18px">
+          <label class="field-label">Password</label>
+          <input class="field" type="password" id="li-pass" placeholder="••••••••">
+        </div>
+        <div class="err-msg" id="li-err" style="display:none"></div>
+        <button class="btn" onclick="doLogin()">
+          <span id="li-spinner" style="display:none;width:14px;height:14px;border:2px solid rgba(0,0,0,0.2);border-top-color:#000;border-radius:50%;animation:spin 0.7s linear infinite"></span>
+          Sign in to CampusFlow
+        </button>
+      </div>
+
+      <div id="form-up" style="display:none">
+        <div class="field-group">
+          <label class="field-label">Full name</label>
+          <input class="field" id="su-name" placeholder="Ahmad Faris">
+        </div>
+        <div class="field-group">
+          <label class="field-label">University email</label>
+          <input class="field" type="email" id="su-email" placeholder="a22ec0001@utm.my">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Student / Staff ID <span style="color:var(--gray-700)">(optional)</span></label>
+          <input class="field" id="su-id" placeholder="A22EC0001">
+        </div>
+        <div class="field-group" style="margin-bottom:14px">
+          <label class="field-label">Password</label>
+          <input class="field" type="password" id="su-pass" placeholder="••••••••">
+        </div>
+
+        <label class="field-label">I am a</label>
+        <div class="role-row">
+          <div class="role-card on" id="rc-student" onclick="pickRole('student')">
+            <div class="rc-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M7 9.5v5l5 2.5 5-2.5v-5"/></svg>
+            </div>
+            <div class="rc-name">Student</div>
+            <div class="rc-sub">Standard access</div>
+          </div>
+          <div class="role-card" id="rc-staff" onclick="pickRole('staff')">
+            <div class="rc-icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </div>
+            <div class="rc-name">Staff</div>
+            <div class="rc-sub">Admin + agent logs</div>
+          </div>
+        </div>
+
+        <div class="err-msg" id="su-err" style="display:none"></div>
+        <button class="btn" onclick="doSignup()">Create account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-app">
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="top-logo">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <span class="top-title">CampusFlow</span>
+      <span class="top-sub" id="portal-sub">UTM &middot; Student Portal</span>
+    </div>
+    <div class="topbar-right">
+      <div class="top-user">
+        <div class="avatar" id="nav-avatar">U</div>
+        <span class="top-user-name" id="nav-name">User</span>
+        <span class="role-pill" id="nav-role">Student</span>
+      </div>
+      <button class="icon-btn" onclick="signOut()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="sidebar">
+      <button class="new-chat-btn" onclick="createNewChat()">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        New Chat
+      </button>
+
+      <div class="sb-section-label">Recent Chats</div>
+      <div id="chat-list"></div>
+
+      <div id="staff-section" style="display:none">
+        <div class="sb-divider"></div>
+        
+        <div class="sb-section-label">Agent Logs (Departments)</div>
+        <div id="dept-list"></div>
+        
+        <div class="sb-divider"></div>
+        
+        <div class="sb-section-label">Staff tools</div>
+        <div class="sb-item" style="opacity:0.4;cursor:default">
+          <div class="sb-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="sb-text"><div class="sb-name">User management</div></div>
+        </div>
+        <div class="sb-item" style="opacity:0.4;cursor:default">
+          <div class="sb-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+          <div class="sb-text"><div class="sb-name">Analytics</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-wrap">
+      
+      <div id="view-chat" class="view-container">
+        <div class="msgs-area" id="msgs"></div>
+
+        <div class="suggestions" id="suggestions">
+          <button class="sugg" onclick="useQ('Check my course registration deadline')">Course deadline</button>
+          <button class="sugg" onclick="useQ('What is my outstanding fee balance?')">Fee balance</button>
+          <button class="sugg" onclick="useQ('Report a broken air conditioner in Block A')">Report maintenance</button>
+          <button class="sugg" onclick="useQ('I cannot login to my UTM wifi')">Wifi issue</button>
+          <button class="sugg" onclick="useQ('Book a library study room')">Library room</button>
+        </div>
+
+        <div class="input-bar-container">
+          <div class="input-wrapper">
+            <div class="input-row">
+              <textarea class="chat-textarea" id="chat-in" rows="2" placeholder="Ask anything about campus services..."></textarea>
+              <button class="send-btn" onclick="send()">
+                <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
+            <div class="input-hint">CampusFlow AI &middot; Verify critical information with relevant offices</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-dept" class="view-container">
+        <div class="dept-header">
+          <h2 id="dept-view-title"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M7 9.5v5l5 2.5 5-2.5v-5"/></svg> Department Logs</h2>
+          <p id="dept-view-desc">Internal agent routing and tool execution traces.</p>
+        </div>
+        <div class="logs-container" id="dept-logs-container">
+          </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+const DEPTS = [
+  { id:"academic",      name:"Academic",       desc:"Courses, GPA, policies",
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M7 9.5v5l5 2.5 5-2.5v-5"/></svg>' },
+  { id:"finance",       name:"Finance",        desc:"Fees, payments, bursary",
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>' },
+  { id:"maintenance",   name:"Maintenance",    desc:"Repairs, facilities",
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>' },
+  { id:"it_support",    name:"IT Support",     desc:"Accounts, devices, wifi",
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>' },
+  { id:"library",       name:"Library",        desc:"Books, resources, rooms",
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' },
+  { id:"accommodation", name:"Accommodation",  desc:"Hostel, housing, rooms",
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' },
+];
+
+// Replaced static PAST_CHATS with a dynamic state array that holds the messages
+let APP_CHATS = [
+  { 
+    id: "c1", 
+    title: "Course registration deadline", 
+    desc: "Yesterday",
+    messages: [
+      { text: "Check my course registration deadline", isUser: true },
+      { text: "I've checked with the Academic Affairs agent. Course registration for Semester 2 2024/25 closes **February 15, 2024**.", isUser: false }
+    ]
+  },
+  { 
+    id: "c2", 
+    title: "Kolej Tun Razak Wifi", 
+    desc: "Jan 18",
+    messages: [
+      { text: "I cannot login to my UTM wifi at Kolej Tun Razak", isUser: true },
+      { text: "There's a known wifi outage (**INC-4421**) affecting Kolej Tun Razak Blocks C–F. Network engineers are on-site.", isUser: false }
+    ]
+  }
+];
+
+const LOGS = {
+  academic: [
+    { t:"route",  time:"09:14", from:"General agent",   to:"Academic agent",          msg:"Student querying course registration deadline for CS3001. Intent extracted." },
+    { t:"tool",   time:"09:14", from:"Academic agent",  to:"get_academic_calendar",   msg:'{"semester":"2024/25 Sem 2","course_code":"CS3001"}' },
+    { t:"result", time:"09:14", from:"Tool result",     to:"Academic agent",           msg:'{"deadline":"2024-02-15","late_fee":"RM50","status":"open","seats_available":12}' },
+    { t:"response",time:"09:15",from:"Academic agent",  to:"General agent",           msg:"CS3001 registration closes Feb 15. Late fee RM50. 12 seats available. Returning to user." },
+  ],
+  it_support: [
+    { t:"route",  time:"14:05", from:"General agent",   to:"IT Support agent",         msg:"Student unable to authenticate on campus wifi at Kolej Tun Razak." },
+    { t:"tool",   time:"14:05", from:"IT Support agent",to:"check_network_status",     msg:'{"location":"Kolej Tun Razak","network":"UTMwifi","type":"authentication"}' },
+    { t:"result", time:"14:06", from:"Tool result",     to:"IT Support agent",         msg:'{"status":"degraded","incident_id":"INC-4421","affected_area":"KTR Block C-F","eta_mins":120}' },
+    { t:"response",time:"14:06",from:"IT Support agent",to:"General agent",            msg:"Known outage INC-4421 affecting KTR Block C-F. Engineers on-site. ETA 2 hrs." },
+  ],
+};
+
+let user = null;
+let role = 'student';
+let currentChatId = null; // Tracks which chat we are currently viewing
+let currentSelection = 'new'; // 'new', 'chat_id', 'dept_id'
+
+const chatIcon = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+
+function switchTab(t) {
+  ['in','up'].forEach(x => {
+    document.getElementById('tab-'+x).classList.toggle('on', x===t);
+    document.getElementById('form-'+x).style.display = x===t ? '' : 'none';
+  });
+}
+
+function pickRole(r) {
+  role = r;
+  ['student','staff'].forEach(x => document.getElementById('rc-'+x).classList.toggle('on', x===r));
+}
+
+function doLogin() {
+  const email = document.getElementById('li-email').value.trim() || 'demo@utm.my';
+  const pass  = document.getElementById('li-pass').value;
+  if (!pass) { showErr('li-err','Please enter a password.'); return; }
+  showSpinner('li-spinner');
+  setTimeout(() => { user = { name: email.split('@')[0], email, role:'student' }; launchApp(); }, 900);
+}
+
+function doSignup() {
+  const name  = document.getElementById('su-name').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const pass  = document.getElementById('su-pass').value;
+  if (!name || !email || !pass) { showErr('su-err','Please fill in all fields.'); return; }
+  user = { name, email, role };
+  launchApp();
+}
+
+function showErr(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg; el.style.display = '';
+}
+
+function showSpinner(id) { document.getElementById(id).style.display = ''; }
+
+function launchApp() {
+  document.getElementById('page-login').style.display = 'none';
+  const app = document.getElementById('page-app');
+  app.style.display = 'flex'; app.classList.add('visible');
+
+  const isStaff = user.role === 'staff';
+  document.getElementById('portal-sub').textContent = 'UTM · ' + (isStaff ? 'Staff portal' : 'Student portal');
+  document.getElementById('nav-avatar').textContent = user.name[0].toUpperCase();
+  document.getElementById('nav-name').textContent   = user.name;
+  
+  const rp = document.getElementById('nav-role');
+  rp.textContent = isStaff ? 'Staff' : 'Student';
+  if (isStaff) rp.classList.add('staff');
+  if (isStaff) document.getElementById('staff-section').style.display = '';
+
+  buildSidebar();
+  createNewChat(); 
+}
+
+function signOut() {
+  user = null; currentChatId = null; currentSelection = 'new';
+  document.getElementById('msgs').innerHTML = '';
+  document.getElementById('suggestions').style.display = 'flex';
+  document.getElementById('page-app').style.display = 'none';
+  document.getElementById('page-login').style.display = 'flex';
+  document.getElementById('staff-section').style.display = 'none'; // reset staff view
+}
+
+function buildSidebar() {
+  // Map our dynamic APP_CHATS state to the sidebar
+  document.getElementById('chat-list').innerHTML = APP_CHATS.map(c =>
+    `<div class="sb-item ${c.id === currentSelection ? 'on' : ''}" id="item-${c.id}" onclick="selectChat('${c.id}')">
+      <div class="sb-icon">${chatIcon}</div>
+      <div class="sb-text"><div class="sb-name">${c.title}</div><div class="sb-desc">${c.desc}</div></div>
+    </div>`
+  ).join('');
+
+  document.getElementById('dept-list').innerHTML = DEPTS.map(d =>
+    `<div class="sb-item ${d.id === currentSelection ? 'on' : ''}" id="item-${d.id}" onclick="selectDept('${d.id}')">
+      <div class="sb-icon">${d.icon}</div>
+      <div class="sb-text"><div class="sb-name">${d.name} agent</div><div class="sb-desc">View inter-agent logs</div></div>
+    </div>`
+  ).join('');
+}
+
+function clearSidebarHighlight() {
+  document.querySelectorAll('.sb-item').forEach(el => el.classList.remove('on'));
+}
+
+function createNewChat() {
+  currentChatId = null; // Reset chat tracking
+  currentSelection = 'new';
+  clearSidebarHighlight();
+  document.getElementById('view-dept').style.display = 'none';
+  document.getElementById('view-chat').style.display = 'flex';
+  
+  document.getElementById('msgs').innerHTML = '';
+  document.getElementById('suggestions').style.display = 'flex';
+  
+  // Implicit greeting that isn't saved to history
+  addBubble("Hello! I'm your CampusFlow AI assistant at UTM. I can help with **academic matters, finance, IT support, maintenance, library, accommodation,** and more. What do you need help with?", false);
+}
+
+function selectChat(id) {
+  currentChatId = id;
+  currentSelection = id;
+  
+  clearSidebarHighlight();
+  document.getElementById('item-'+id).classList.add('on');
+  
+  document.getElementById('view-dept').style.display = 'none';
+  document.getElementById('view-chat').style.display = 'flex';
+  
+  document.getElementById('msgs').innerHTML = '';
+  document.getElementById('suggestions').style.display = 'none'; // Hide suggestions on past chats
+  
+  // Load and render history from state
+  const chat = APP_CHATS.find(c => c.id === id);
+  if (chat && chat.messages) {
+    chat.messages.forEach(m => addBubble(m.text, m.isUser));
+  }
+}
+
+function selectDept(id) {
+  currentSelection = id;
+  clearSidebarHighlight();
+  document.getElementById('item-'+id).classList.add('on');
+
+  document.getElementById('view-chat').style.display = 'none';
+  document.getElementById('view-dept').style.display = 'block'; 
+
+  const deptData = DEPTS.find(d => d.id === id);
+  document.getElementById('dept-view-title').innerHTML = `${deptData.icon} ${deptData.name} Agent Logs`;
+  
+  renderDeptLogs(id);
+}
+
+function renderDeptLogs(deptId) {
+  const logs = LOGS[deptId] || [];
+  const container = document.getElementById('dept-logs-container');
+  
+  if (logs.length === 0) {
+    container.innerHTML = `<div style="text-align:center; padding: 40px; color: var(--gray-600); font-size: 13px;">No inter-agent logs available for this department yet.</div>`;
+    return;
+  }
+
+  container.innerHTML = logs.map((l,i) =>
+    `<div class="log-entry" onclick="this.classList.toggle('open')">
+      <div class="le-meta">
+        <div class="le-meta-left">
+            <span class="le-badge ${l.t}">${l.t}</span>
+            <span class="le-flow">
+              <span class="le-from">${l.from}</span>
+              <span class="le-arrow">→</span>
+              <span class="le-to">${l.to}</span>
+            </span>
+        </div>
+        <span class="le-time">${l.time}</span>
+      </div>
+      <div style="font-size: 13px; color: var(--gray-300);">${l.t === 'tool' || l.t === 'result' ? 'Payload attached. Click to view.' : l.msg}</div>
+      <div class="le-payload">${l.msg}</div>
+    </div>`
+  ).join('');
+}
+
+function addBubble(text, isUser) {
+  const msgs = document.getElementById('msgs');
+  const row = document.createElement('div');
+  row.className = 'bubble-row' + (isUser ? ' user' : '');
+  const formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  if (isUser) {
+    row.innerHTML = `<div class="bubble user">${formatted}</div>`;
+  } else {
+    row.innerHTML = `<div class="msg-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="bubble ai">${formatted}</div>`;
+  }
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+let typingRow = null;
+function showTyping() {
+  const msgs = document.getElementById('msgs');
+  typingRow = document.createElement('div');
+  typingRow.className = 'typing-row';
+  typingRow.innerHTML = `<div class="msg-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  msgs.appendChild(typingRow);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function removeTyping() { if (typingRow) { typingRow.remove(); typingRow = null; } }
+
+function useQ(q) { document.getElementById('chat-in').value = q; document.getElementById('chat-in').focus(); }
+
+const API_BASE   = 'http://localhost:8000';
+const UNI_ID     = 'utm';
+let   sessionId  = '';
+
+async function send() {
+  const el   = document.getElementById('chat-in');
+  const text = el.value.trim();
+  if (!text) return;
+  el.value = '';
+  
+  // Hide suggestions as soon as a user starts a conversation
+  document.getElementById('suggestions').style.display = 'none';
+
+  // 1. If this is a new chat, generate it and update the UI list
+  if (!currentChatId) {
+    currentChatId = 'chat_' + Date.now();
+    currentSelection = currentChatId;
+    
+    // Snip the prompt to make a title for the sidebar
+    const shortTitle = text.length > 24 ? text.substring(0, 24) + '...' : text;
+    
+    APP_CHATS.unshift({
+      id: currentChatId,
+      title: shortTitle,
+      desc: "Just now",
+      messages: []
+    });
+    
+    buildSidebar(); // Re-render sidebar to show the new chat immediately
+  }
+
+  // 2. Save User Message to our state object
+  const activeChat = APP_CHATS.find(c => c.id === currentChatId);
+  activeChat.messages.push({ text: text, isUser: true });
+
+  // 3. Draw the User Message
+  addBubble(text, true);
+  showTyping();
+
+  try {
+    const res = await fetch(`${API_BASE}/v1/chat`, {
+      method:  'POST',
+      headers: {
+        'Content-Type':    'application/json',
+        'x-university-id': UNI_ID,
+      },
+      body: JSON.stringify({
+        message:    text,
+        session_id: sessionId,
+        user_id:    user?.email || '',
+      }),
+    });
+
+    if (!res.ok) throw new Error(`Server error: ${res.status}`);
+    const data = await res.json();
+
+    sessionId = data.session_id;
+
+    removeTyping();
+    
+    // 4. Save and Draw AI Message
+    activeChat.messages.push({ text: data.reply, isUser: false });
+    addBubble(data.reply, false);
+
+    // Save routing info to logs
+    const depts = data.routing?.departments || [];
+    if (depts.length > 0) {
+      appendLiveLog(depts, data.routing, data.responses);
+    }
+
+  } catch (err) {
+    removeTyping();
+    const errorMsg = 'Sorry, I could not reach the server. Make sure the backend is running at ' + API_BASE;
+    activeChat.messages.push({ text: errorMsg, isUser: false });
+    addBubble(errorMsg, false);
+    console.error(err);
+  }
+}
+
+function appendLiveLog(depts, routing, responses) {
+  const dept  = depts[0];
+  const resp  = responses?.[dept] || {};
+  const tools = resp.tool_results || [];
+
+  if (!LOGS[dept]) LOGS[dept] = [];
+  const now = new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+
+  LOGS[dept].push(
+    { t:'route',    time:now, from:'General agent', to: dept+' agent', msg: routing.summary || 'Routing decision made.' },
+    ...tools.map(tr => ([
+      { t:'tool',   time:now, from:dept+' agent', to:'Tool: '+tr.tool, msg: JSON.stringify(tr.args) },
+      { t:'result', time:now, from:'Tool result',  to:dept+' agent', msg: JSON.stringify(tr.result) },
+    ])).flat(),
+    { t:'response', time:now, from:dept+' agent', to:'General agent', msg: resp.message || 'Response generated.' }
+  );
+  
+  if (currentSelection === dept) {
+      renderDeptLogs(dept);
+  }
+}
+
+document.getElementById('chat-in').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+});
+</script>
+</body>
+</html>

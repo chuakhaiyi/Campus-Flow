@@ -191,3 +191,5 @@ if __name__ == "__main__":
         run_test(args.uni)
     else:
         run_chat(args.uni)
+
+print("Hello, CampusFlow v4 is ready to chat! Type your message below.\n")

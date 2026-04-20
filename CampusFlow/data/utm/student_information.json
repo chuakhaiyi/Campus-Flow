@@ -1,0 +1,416 @@
+{
+  "students": [
+    {
+      "student_id": "STU-2024-0001",
+      "personal": {
+        "name": "Amirul Hakim bin Zulkifli",
+        "gender": "male",
+        "date_of_birth": "2005-03-12",
+        "nationality": "Malaysian",
+        "ic_passport": "050312-14-5678",
+        "phone": "+60-11-2345-6789",
+        "email": "amirul.hakim@student.campusflow.edu.my",
+        "address": {
+          "street": "No. 14, Jalan Mawar 3",
+          "city": "Seremban",
+          "state": "Negeri Sembilan",
+          "postcode": "70200",
+          "country": "Malaysia"
+        },
+        "emergency_contact": {
+          "name": "Zulkifli bin Ahmad",
+          "relationship": "Father",
+          "phone": "+60-12-987-6543"
+        }
+      },
+      "academic": {
+        "programme": "Bachelor of Computer Science (Software Engineering)",
+        "faculty": "Faculty of Computing",
+        "intake": "September 2024",
+        "year": 1,
+        "semester": 1,
+        "status": "active",
+        "expected_graduation": "2027-07",
+        "advisor": "Dr. Nurul Ain binti Hassan",
+        "courses_completed": [],
+        "courses_current": [
+          {
+            "course_code": "CS101",
+            "course_name": "Introduction to Programming",
+            "credit_hours": 3,
+            "section": "A"
+          },
+          {
+            "course_code": "CS102",
+            "course_name": "Discrete Mathematics",
+            "credit_hours": 3,
+            "section": "B"
+          },
+          {
+            "course_code": "CS103",
+            "course_name": "Computer Organization",
+            "credit_hours": 3,
+            "section": "A"
+          },
+          {
+            "course_code": "MPU101",
+            "course_name": "Pengajian Malaysia",
+            "credit_hours": 2,
+            "section": "C"
+          },
+          {
+            "course_code": "MPU102",
+            "course_name": "English for Academic Purposes",
+            "credit_hours": 2,
+            "section": "A"
+          }
+        ],
+        "timetable": [
+          {"day": "Monday",    "time": "08:00-10:00", "course_code": "CS101", "room": "DK-A101", "type": "Lecture"},
+          {"day": "Monday",    "time": "14:00-16:00", "course_code": "CS102", "room": "DK-B202", "type": "Lecture"},
+          {"day": "Tuesday",   "time": "10:00-12:00", "course_code": "CS103", "room": "LAB-C301", "type": "Lab"},
+          {"day": "Wednesday", "time": "08:00-10:00", "course_code": "CS101", "room": "LAB-A102", "type": "Tutorial"},
+          {"day": "Wednesday", "time": "14:00-16:00", "course_code": "MPU101", "room": "DK-D101", "type": "Lecture"},
+          {"day": "Thursday",  "time": "10:00-12:00", "course_code": "CS102", "room": "DK-B202", "type": "Tutorial"},
+          {"day": "Thursday",  "time": "14:00-16:00", "course_code": "MPU102", "room": "DK-A201", "type": "Lecture"},
+          {"day": "Friday",    "time": "08:00-10:00", "course_code": "CS103", "room": "DK-C101", "type": "Lecture"}
+        ],
+        "results": []
+      },
+      "finance": {
+        "outstanding_fees_myr": 4500.00,
+        "scholarship": null,
+        "payment_plan": "semester_lump_sum",
+        "hostel_resident": true
+      },
+      "hostel": {
+        "room_id": "KM-A-101",
+        "block": "Kolej Maju",
+        "check_in_date": "2024-09-01"
+      },
+      "library": {
+        "membership_status": "active",
+        "books_borrowed": 0,
+        "overdue_fines_myr": 0.00
+      },
+      "disciplinary": {
+        "warnings": 0,
+        "notes": []
+      }
+    },
+    {
+      "student_id": "STU-2024-0002",
+      "personal": {
+        "name": "Siti Aisyah binti Ramli",
+        "gender": "female",
+        "date_of_birth": "2004-11-28",
+        "nationality": "Malaysian",
+        "ic_passport": "041128-10-2345",
+        "phone": "+60-17-345-6789",
+        "email": "siti.aisyah@student.campusflow.edu.my",
+        "address": {
+          "street": "Blok C-12-3, Pangsapuri Damai",
+          "city": "Petaling Jaya",
+          "state": "Selangor",
+          "postcode": "47810",
+          "country": "Malaysia"
+        },
+        "emergency_contact": {
+          "name": "Ramli bin Ismail",
+          "relationship": "Father",
+          "phone": "+60-12-456-7890"
+        }
+      },
+      "academic": {
+        "programme": "Bachelor of Business Administration (Finance)",
+        "faculty": "Faculty of Business",
+        "intake": "September 2022",
+        "year": 3,
+        "semester": 1,
+        "status": "active",
+        "expected_graduation": "2025-07",
+        "advisor": "Prof. Shahrul Nizam bin Md Yusof",
+        "courses_completed": [
+          {"course_code": "BUS101", "course_name": "Principles of Management",    "credit_hours": 3, "grade": "A",  "grade_point": 4.0},
+          {"course_code": "BUS102", "course_name": "Business Mathematics",         "credit_hours": 3, "grade": "A-", "grade_point": 3.7},
+          {"course_code": "ACC101", "course_name": "Financial Accounting I",       "credit_hours": 3, "grade": "B+", "grade_point": 3.3},
+          {"course_code": "ECO101", "course_name": "Microeconomics",              "credit_hours": 3, "grade": "A",  "grade_point": 4.0},
+          {"course_code": "MPU101", "course_name": "Pengajian Malaysia",           "credit_hours": 2, "grade": "A-", "grade_point": 3.7},
+          {"course_code": "MPU102", "course_name": "English for Academic Purposes","credit_hours": 2, "grade": "B+", "grade_point": 3.3},
+          {"course_code": "BUS201", "course_name": "Organisational Behaviour",    "credit_hours": 3, "grade": "A",  "grade_point": 4.0},
+          {"course_code": "FIN201", "course_name": "Corporate Finance",            "credit_hours": 3, "grade": "A",  "grade_point": 4.0},
+          {"course_code": "ACC201", "course_name": "Financial Accounting II",      "credit_hours": 3, "grade": "A-", "grade_point": 3.7},
+          {"course_code": "ECO201", "course_name": "Macroeconomics",              "credit_hours": 3, "grade": "B+", "grade_point": 3.3},
+          {"course_code": "BUS202", "course_name": "Business Statistics",          "credit_hours": 3, "grade": "A",  "grade_point": 4.0},
+          {"course_code": "MPU201", "course_name": "Bahasa Kebangsaan",            "credit_hours": 2, "grade": "A",  "grade_point": 4.0}
+        ],
+        "courses_current": [
+          {"course_code": "FIN301", "course_name": "Investment Analysis",          "credit_hours": 3, "section": "A"},
+          {"course_code": "FIN302", "course_name": "Risk Management",             "credit_hours": 3, "section": "B"},
+          {"course_code": "BUS301", "course_name": "Strategic Management",        "credit_hours": 3, "section": "A"},
+          {"course_code": "ACC301", "course_name": "Auditing",                    "credit_hours": 3, "section": "C"},
+          {"course_code": "MPU301", "course_name": "Leadership and Ethics",       "credit_hours": 2, "section": "A"}
+        ],
+        "timetable": [
+          {"day": "Monday",    "time": "09:00-11:00", "course_code": "FIN301", "room": "DK-E201", "type": "Lecture"},
+          {"day": "Monday",    "time": "14:00-16:00", "course_code": "BUS301", "room": "DK-E101", "type": "Lecture"},
+          {"day": "Tuesday",   "time": "10:00-12:00", "course_code": "FIN302", "room": "DK-F301", "type": "Lecture"},
+          {"day": "Wednesday", "time": "09:00-11:00", "course_code": "FIN301", "room": "DK-E201", "type": "Tutorial"},
+          {"day": "Wednesday", "time": "14:00-16:00", "course_code": "ACC301", "room": "DK-G101", "type": "Lecture"},
+          {"day": "Thursday",  "time": "10:00-12:00", "course_code": "FIN302", "room": "DK-F301", "type": "Tutorial"},
+          {"day": "Thursday",  "time": "14:00-16:00", "course_code": "MPU301", "room": "DK-A301", "type": "Lecture"},
+          {"day": "Friday",    "time": "09:00-11:00", "course_code": "BUS301", "room": "DK-E101", "type": "Tutorial"},
+          {"day": "Friday",    "time": "11:00-13:00", "course_code": "ACC301", "room": "DK-G101", "type": "Tutorial"}
+        ],
+        "results": [
+          {
+            "semester": "September 2022 – January 2023",
+            "sem_number": 1,
+            "gpa": 3.75,
+            "credit_hours_taken": 16,
+            "credit_hours_passed": 16,
+            "courses": ["BUS101","BUS102","ACC101","ECO101","MPU101","MPU102"]
+          },
+          {
+            "semester": "February 2023 – June 2023",
+            "sem_number": 2,
+            "gpa": 3.80,
+            "credit_hours_taken": 17,
+            "credit_hours_passed": 17,
+            "courses": ["BUS201","FIN201","ACC201","ECO201","BUS202","MPU201"]
+          },
+          {
+            "semester": "September 2023 – January 2024",
+            "sem_number": 3,
+            "gpa": 3.70,
+            "credit_hours_taken": 17,
+            "credit_hours_passed": 17,
+            "courses": ["FIN301","FIN302","BUS301","ACC301","MPU301"]
+          }
+        ],
+        "cgpa": 3.75
+      },
+      "finance": {
+        "outstanding_fees_myr": 0.00,
+        "scholarship": "Yayasan Selangor Merit Scholarship",
+        "payment_plan": null,
+        "hostel_resident": true
+      },
+      "hostel": {
+        "room_id": "KM-B-103",
+        "block": "Kolej Maju",
+        "check_in_date": "2022-09-01"
+      },
+      "library": {
+        "membership_status": "active",
+        "books_borrowed": 2,
+        "overdue_fines_myr": 0.00
+      },
+      "disciplinary": {
+        "warnings": 0,
+        "notes": []
+      }
+    },
+    {
+      "student_id": "STU-2023-0045",
+      "personal": {
+        "name": "Rajesh Kumar a/l Subramaniam",
+        "gender": "male",
+        "date_of_birth": "2003-07-19",
+        "nationality": "Malaysian",
+        "ic_passport": "030719-08-4321",
+        "phone": "+60-16-789-0123",
+        "email": "rajesh.kumar@student.campusflow.edu.my",
+        "address": {
+          "street": "22, Jalan Kenanga 7/3",
+          "city": "Shah Alam",
+          "state": "Selangor",
+          "postcode": "40150",
+          "country": "Malaysia"
+        },
+        "emergency_contact": {
+          "name": "Subramaniam a/l Pillai",
+          "relationship": "Father",
+          "phone": "+60-12-345-6789"
+        }
+      },
+      "academic": {
+        "programme": "Bachelor of Information Technology (Cybersecurity)",
+        "faculty": "Faculty of Computing",
+        "intake": "March 2023",
+        "year": 2,
+        "semester": 2,
+        "status": "active",
+        "expected_graduation": "2026-03",
+        "advisor": "Dr. Faizal bin Mohd Aris",
+        "courses_completed": [
+          {"course_code": "CS101",  "course_name": "Introduction to Programming",  "credit_hours": 3, "grade": "A",  "grade_point": 4.0},
+          {"course_code": "IT101",  "course_name": "Fundamentals of IT",           "credit_hours": 3, "grade": "B+", "grade_point": 3.3},
+          {"course_code": "NET101", "course_name": "Computer Networks I",          "credit_hours": 3, "grade": "A-", "grade_point": 3.7},
+          {"course_code": "MPU101", "course_name": "Pengajian Malaysia",           "credit_hours": 2, "grade": "B",  "grade_point": 3.0},
+          {"course_code": "MPU102", "course_name": "English for Academic Purposes","credit_hours": 2, "grade": "B+", "grade_point": 3.3},
+          {"course_code": "SEC101", "course_name": "Introduction to Cybersecurity","credit_hours": 3, "grade": "A",  "grade_point": 4.0}
+        ],
+        "courses_current": [
+          {"course_code": "SEC201", "course_name": "Network Security",            "credit_hours": 3, "section": "A"},
+          {"course_code": "SEC202", "course_name": "Ethical Hacking",             "credit_hours": 3, "section": "A"},
+          {"course_code": "NET201", "course_name": "Computer Networks II",        "credit_hours": 3, "section": "B"},
+          {"course_code": "CS201",  "course_name": "Data Structures & Algorithms","credit_hours": 3, "section": "C"},
+          {"course_code": "MPU201", "course_name": "Bahasa Kebangsaan",           "credit_hours": 2, "section": "B"}
+        ],
+        "timetable": [
+          {"day": "Monday",    "time": "08:00-10:00", "course_code": "SEC201", "room": "LAB-C201", "type": "Lab"},
+          {"day": "Monday",    "time": "14:00-16:00", "course_code": "CS201",  "room": "DK-A101", "type": "Lecture"},
+          {"day": "Tuesday",   "time": "10:00-12:00", "course_code": "SEC202", "room": "LAB-C301", "type": "Lab"},
+          {"day": "Wednesday", "time": "08:00-10:00", "course_code": "SEC201", "room": "DK-B101", "type": "Lecture"},
+          {"day": "Wednesday", "time": "14:00-16:00", "course_code": "NET201", "room": "DK-B201", "type": "Lecture"},
+          {"day": "Thursday",  "time": "10:00-12:00", "course_code": "CS201",  "room": "DK-A101", "type": "Tutorial"},
+          {"day": "Thursday",  "time": "14:00-16:00", "course_code": "MPU201", "room": "DK-D201", "type": "Lecture"},
+          {"day": "Friday",    "time": "09:00-11:00", "course_code": "NET201", "room": "LAB-B201", "type": "Lab"},
+          {"day": "Friday",    "time": "11:00-13:00", "course_code": "SEC202", "room": "DK-B101", "type": "Lecture"}
+        ],
+        "results": [
+          {
+            "semester": "March 2023 – July 2023",
+            "sem_number": 1,
+            "gpa": 3.55,
+            "credit_hours_taken": 16,
+            "credit_hours_passed": 16,
+            "courses": ["CS101","IT101","NET101","MPU101","MPU102","SEC101"]
+          }
+        ],
+        "cgpa": 3.55
+      },
+      "finance": {
+        "outstanding_fees_myr": 1200.00,
+        "scholarship": null,
+        "payment_plan": "instalment_3",
+        "hostel_resident": false
+      },
+      "hostel": null,
+      "library": {
+        "membership_status": "active",
+        "books_borrowed": 1,
+        "overdue_fines_myr": 2.50
+      },
+      "disciplinary": {
+        "warnings": 1,
+        "notes": ["Late submission of assignment — formal warning issued 2023-11-10"]
+      }
+    },
+    {
+      "student_id": "STU-2022-0088",
+      "personal": {
+        "name": "Nurul Hana binti Idris",
+        "gender": "female",
+        "date_of_birth": "2002-05-04",
+        "nationality": "Malaysian",
+        "ic_passport": "020504-06-7654",
+        "phone": "+60-18-567-8901",
+        "email": "nurul.hana@student.campusflow.edu.my",
+        "address": {
+          "street": "Lot 5, Kampung Baru Salak Tinggi",
+          "city": "Sepang",
+          "state": "Selangor",
+          "postcode": "43900",
+          "country": "Malaysia"
+        },
+        "emergency_contact": {
+          "name": "Idris bin Hamzah",
+          "relationship": "Father",
+          "phone": "+60-13-678-9012"
+        }
+      },
+      "academic": {
+        "programme": "Bachelor of Civil Engineering",
+        "faculty": "Faculty of Engineering",
+        "intake": "September 2021",
+        "year": 4,
+        "semester": 1,
+        "status": "active",
+        "expected_graduation": "2025-07",
+        "advisor": "Assoc. Prof. Dr. Hairul Nizam bin Ramli",
+        "courses_completed": [
+          {"course_code": "CVL101", "course_name": "Engineering Mathematics I",   "credit_hours": 4, "grade": "B+", "grade_point": 3.3},
+          {"course_code": "CVL102", "course_name": "Engineering Drawing",          "credit_hours": 2, "grade": "A",  "grade_point": 4.0},
+          {"course_code": "CVL103", "course_name": "Statics",                     "credit_hours": 3, "grade": "B",  "grade_point": 3.0},
+          {"course_code": "MPU101", "course_name": "Pengajian Malaysia",           "credit_hours": 2, "grade": "A",  "grade_point": 4.0},
+          {"course_code": "MPU102", "course_name": "English for Academic Purposes","credit_hours": 2, "grade": "A-", "grade_point": 3.7},
+          {"course_code": "CVL201", "course_name": "Engineering Mathematics II",  "credit_hours": 4, "grade": "B+", "grade_point": 3.3},
+          {"course_code": "CVL202", "course_name": "Mechanics of Materials",      "credit_hours": 3, "grade": "A-", "grade_point": 3.7},
+          {"course_code": "CVL203", "course_name": "Fluid Mechanics",             "credit_hours": 3, "grade": "B+", "grade_point": 3.3},
+          {"course_code": "CVL204", "course_name": "Soil Mechanics",              "credit_hours": 3, "grade": "A",  "grade_point": 4.0},
+          {"course_code": "CVL301", "course_name": "Structural Analysis",         "credit_hours": 3, "grade": "A-", "grade_point": 3.7},
+          {"course_code": "CVL302", "course_name": "Water Resources Engineering", "credit_hours": 3, "grade": "B+", "grade_point": 3.3},
+          {"course_code": "CVL303", "course_name": "Transportation Engineering",  "credit_hours": 3, "grade": "A",  "grade_point": 4.0},
+          {"course_code": "CVL304", "course_name": "Environmental Engineering",   "credit_hours": 3, "grade": "A-", "grade_point": 3.7}
+        ],
+        "courses_current": [
+          {"course_code": "CVL401", "course_name": "Design of Concrete Structures","credit_hours": 3, "section": "A"},
+          {"course_code": "CVL402", "course_name": "Geotechnical Engineering",    "credit_hours": 3, "section": "A"},
+          {"course_code": "CVL403", "course_name": "Construction Management",     "credit_hours": 3, "section": "B"},
+          {"course_code": "CVL404", "course_name": "Final Year Project I",        "credit_hours": 4, "section": "A"},
+          {"course_code": "MPU301", "course_name": "Leadership and Ethics",       "credit_hours": 2, "section": "C"}
+        ],
+        "timetable": [
+          {"day": "Monday",    "time": "08:00-10:00", "course_code": "CVL401", "room": "DK-H101", "type": "Lecture"},
+          {"day": "Monday",    "time": "14:00-17:00", "course_code": "CVL404", "room": "LAB-H501", "type": "Lab"},
+          {"day": "Tuesday",   "time": "10:00-12:00", "course_code": "CVL402", "room": "DK-H201", "type": "Lecture"},
+          {"day": "Wednesday", "time": "08:00-10:00", "course_code": "CVL403", "room": "DK-H301", "type": "Lecture"},
+          {"day": "Wednesday", "time": "14:00-16:00", "course_code": "CVL401", "room": "LAB-H401", "type": "Tutorial"},
+          {"day": "Thursday",  "time": "10:00-12:00", "course_code": "CVL402", "room": "LAB-H201", "type": "Lab"},
+          {"day": "Thursday",  "time": "14:00-16:00", "course_code": "MPU301", "room": "DK-A301", "type": "Lecture"},
+          {"day": "Friday",    "time": "09:00-11:00", "course_code": "CVL403", "room": "DK-H301", "type": "Tutorial"},
+          {"day": "Friday",    "time": "11:00-14:00", "course_code": "CVL404", "room": "LAB-H501", "type": "Lab"}
+        ],
+        "results": [
+          {
+            "semester": "September 2021 – January 2022",
+            "sem_number": 1,
+            "gpa": 3.50,
+            "credit_hours_taken": 16,
+            "credit_hours_passed": 16,
+            "courses": ["CVL101","CVL102","CVL103","MPU101","MPU102"]
+          },
+          {
+            "semester": "February 2022 – June 2022",
+            "sem_number": 2,
+            "gpa": 3.60,
+            "credit_hours_taken": 20,
+            "credit_hours_passed": 20,
+            "courses": ["CVL201","CVL202","CVL203","CVL204"]
+          },
+          {
+            "semester": "September 2022 – January 2023",
+            "sem_number": 3,
+            "gpa": 3.70,
+            "credit_hours_taken": 19,
+            "credit_hours_passed": 19,
+            "courses": ["CVL301","CVL302","CVL303","CVL304"]
+          }
+        ],
+        "cgpa": 3.60
+      },
+      "finance": {
+        "outstanding_fees_myr": 500.00,
+        "scholarship": "JPA Scholarship",
+        "payment_plan": null,
+        "hostel_resident": true
+      },
+      "hostel": {
+        "room_id": "KS-B-101",
+        "block": "Kolej Sejahtera",
+        "check_in_date": "2021-09-01"
+      },
+      "library": {
+        "membership_status": "active",
+        "books_borrowed": 3,
+        "overdue_fines_myr": 0.00
+      },
+      "disciplinary": {
+        "warnings": 0,
+        "notes": []
+      }
+    }
+  ]
+}
